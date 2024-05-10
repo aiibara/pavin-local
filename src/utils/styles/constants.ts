@@ -1,0 +1,5 @@
+export const INPUT_RADIUS = 15
+export const INPUT_PADDING_HORIZONTAL = 16
+export const INPUT_PADDING_VERTICAL = 5
+export const INPUT_GAP_HORIZONTAL = 12
+export const INPUT_GAP_VERTICAL = 20
