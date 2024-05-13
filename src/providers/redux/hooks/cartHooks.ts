@@ -1,5 +1,6 @@
 import { IProductCart } from "@/entities/interfaces/cart/ICart";
-import { editCartItem, editCartItemQty, removeCardItem, saveToCart } from "@/features/cart/cartSlice";
+import ICustomer from "@/entities/interfaces/customer/ICustomer";
+import { clearCart, editCartItem, editCartItemQty, removeCardItem, saveToCart, setCartInvoiceDetail } from "@/features/cart/cartSlice";
 import { countCartTotal } from "@/utils/shared";
 import { useMemo } from "react";
 import { useAppDispatch, useAppSelector } from "../hooks";
@@ -22,7 +23,7 @@ export const useGetCart = () => {
 
    return {
       cart,
-      cartTotal: total
+      cartTotal: total,
    }
 }
 
@@ -71,4 +72,35 @@ export const useDeleteCartItem = () => {
    }
 
    return {removeItem} 
+}
+
+export const useGetCartInvoice = () => {
+   const cartInvoice = useAppSelector((state) => state.cart.invoice);
+
+   return cartInvoice
+}
+
+export const useSetCartInvoice = () => {
+   const dispatch = useAppDispatch();
+
+   const setCartInvoice = (customer: ICustomer, invoiceNo: string) => {
+      dispatch(setCartInvoiceDetail({
+         customer: {
+            ...customer
+         },
+         invoiceNo: invoiceNo,
+      }))
+   }
+
+   return setCartInvoice
+}
+
+export const useClearCart = () => {
+   const dispatch = useAppDispatch();
+
+   const clearCartData = () => {
+      dispatch(clearCart())
+   }
+
+   return clearCartData
 }

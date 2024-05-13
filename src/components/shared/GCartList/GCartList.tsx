@@ -1,4 +1,5 @@
 import GInvoiceItemRow from '@/components/GInvoiceItemRow/GInvoiceItemRow';
+import { IProductCart } from '@/entities/interfaces/cart/ICart';
 import { useGetCart } from '@/providers/redux/hooks/cartHooks';
 import { SCREEN_HEIGHT } from '@/utils/constants';
 import { priceFormatter } from '@/utils/shared';
@@ -44,8 +45,8 @@ const GCartList = () => {
   }, [isKeyboardVisible]);
 
   const renderItem = useCallback(
-    ({ item, index }: { item: string; index: number }) => (
-      <GInvoiceItemRow itemId={`${item}`} />
+    ({ item, index }: { item: IProductCart; index: number }) => (
+      <GInvoiceItemRow item={item} locked={false} />
     ),
     []
   );
@@ -55,15 +56,15 @@ const GCartList = () => {
   }
 
   const checkout = () => {
-    router.push({ pathname: '/invoice', params: { items: cart } });
+    router.push({ pathname: '/invoiceDraft' });
   };
 
   return (
     <Animated.View style={[styles.cartContainer, animatedStyles]}>
       <FlatList
         inverted
-        data={Object.keys(cart).reverse()}
-        keyExtractor={(i) => i}
+        data={Object.values(cart).reverse()}
+        keyExtractor={(i) => i.productName + i.productUnit}
         renderItem={renderItem}
       />
       <CButton

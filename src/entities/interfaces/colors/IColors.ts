@@ -3,6 +3,7 @@ export interface IColors {
    text_secondary: string,
    text_danger: string,
    text_success: string,
+   text_placeholder: string,
    bg_header: string,
    bg_content: string,
    bg_tab: string,

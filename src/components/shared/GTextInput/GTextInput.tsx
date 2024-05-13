@@ -3,6 +3,7 @@ import {
   INPUT_PADDING_VERTICAL,
 } from '@/utils/styles/constants';
 import createStyle from '@/utils/styles/createStyle';
+import useColors from '@/utils/styles/useColors';
 import useStyles from '@/utils/styles/useStyles';
 import React, { useState } from 'react';
 import {
@@ -32,6 +33,7 @@ const GTextInput = ({
   ...rest
 }: GTextInputProps) => {
   const { styles } = useStyles(styleSheet);
+  const colors = useColors();
   const [text, setText] = useState(initialValue);
 
   const onBlur = () => {
@@ -46,15 +48,16 @@ const GTextInput = ({
     <View style={[styles.container, textInputContainerStyle]}>
       {!!label && <TextFont>{label}</TextFont>}
       <View style={styles.inputContainer}>
-        {rightComponent}
+        {leftComponent}
         <TextInput
           value={text}
           style={styles.input}
+          placeholderTextColor={colors.text_placeholder}
           onBlur={onBlur}
           onChangeText={onChange}
           {...rest}
         />
-        {leftComponent}
+        {rightComponent}
       </View>
     </View>
   );

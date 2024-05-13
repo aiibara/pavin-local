@@ -1,4 +1,5 @@
 import ICart from "@/entities/interfaces/cart/ICart";
+import IInvoice from "@/entities/interfaces/invoice/IInvoice";
 import { DEFAULT_CURRENCY } from "./constants";
 
 export const priceFormatter = (text: string | number) => {
@@ -24,4 +25,8 @@ export const countCartTotal = (cart?: ICart) => {
     return Object.values(cart).reduce((res, item) => {
       return res + item.quantity * item.productPricePerUnit;
     }, 0);
+}
+
+export const countInvoiceTotal = (inv: IInvoice) => {
+  return countCartTotal(inv.items)
 }

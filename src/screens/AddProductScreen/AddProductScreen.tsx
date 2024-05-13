@@ -115,7 +115,7 @@ const AddProductScreen = () => {
                     label={'Barcode'}
                     initialValue={value}
                     _onBlur={onChange}
-                    leftComponent={
+                    rightComponent={
                       <View>
                         <TouchableOpacity
                           onPress={() => setIsShowScannerView(true)}
@@ -211,7 +211,7 @@ const AddProductScreen = () => {
               render={({ field: { onChange, onBlur, value } }) => (
                 <GTextAreaInput
                   label={'Details'}
-                  value={value}
+                  initialValue={value}
                   _onBlur={onChange}
                 />
               )}

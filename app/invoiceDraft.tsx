@@ -1,12 +1,12 @@
 import GContainer from '@/components/shared/GContainer/GContainer';
-import InvoiceScreen from '@/screens/InvoiceScreen/InvoiceScreen';
+import InvoiceDraftScreen from '@/screens/InvoiceDraftScreen/InvoiceDraftScreen';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
 const Invoice = () => {
   return (
     <GContainer>
-      <InvoiceScreen />
+      <InvoiceDraftScreen />
     </GContainer>
   );
 };

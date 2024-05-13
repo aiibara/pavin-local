@@ -18,7 +18,7 @@ export interface ProductCardProps {
   imageUrl: string;
   prices: IPrice[];
 }
-const ProductCard = ({
+const GProductCard = ({
   code,
   brand = '',
   name,
@@ -72,7 +72,7 @@ const ProductCard = ({
   );
 };
 
-export default ProductCard;
+export default GProductCard;
 
 export interface ProductCardPriceProps {
   productKey: string;

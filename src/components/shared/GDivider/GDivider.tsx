@@ -10,7 +10,6 @@ export interface GDividerProps {
 
 const GDivider = ({ width = '100%', height = 1 }: GDividerProps) => {
   const { styles } = useStyles(stylesheets);
-
   return (
     <View
       style={[

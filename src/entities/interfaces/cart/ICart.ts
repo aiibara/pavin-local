@@ -1,4 +1,4 @@
-import { IPrice } from "../product/IProduct"
+import { IPrice } from "../product/IProduct";
 
 
 export default interface ICart {
@@ -13,5 +13,20 @@ export interface IProductCart {
       productPricePerUnit: number,
       quantity: number,
       currentPrices: IPrice[]
-      lastModify: Date
+      lastModify?: number,
+      
    }
+
+export class ProductCart implements Partial<IProductCart> {
+   productCode?: string | undefined;
+   productUnit?: string | undefined;
+
+   constructor(productCart: Partial<IProductCart>){
+      this.productCode = productCart.productCode
+      this.productUnit = productCart.productUnit
+   }
+
+   get key(): string {
+      return `${this.productCode}_${this.productUnit}`
+   }
+}

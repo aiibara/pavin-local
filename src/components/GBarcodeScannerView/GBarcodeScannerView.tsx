@@ -100,7 +100,6 @@ const GBarcodeScannerView = ({
         impactAsync(ImpactFeedbackStyle.Medium);
         await playSound();
         onSuccessScan(result.data);
-        console.log('result', result);
       }
       // setBoxPosition(boxpos);
     }

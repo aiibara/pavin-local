@@ -1,6 +1,6 @@
 import BarcodeScannerIcon from '@/assets/svgs/BarcodeScannerIcon';
 import GBarcodeScannerView from '@/components/GBarcodeScannerView/GBarcodeScannerView';
-import ProductCard from '@/components/ProductCard/ProductCard';
+import GProductCard from '@/components/GProductCard/GProductCard';
 import GCartList from '@/components/shared/GCartList/GCartList';
 import GTextInput from '@/components/shared/GTextInput/GTextInput';
 import IProduct from '@/entities/interfaces/product/IProduct';
@@ -20,7 +20,7 @@ const HomeScreen = () => {
 
   const renderItem = ({ item }: { item: IProduct }) => {
     return (
-      <ProductCard
+      <GProductCard
         name={item.name}
         imageUrl={item.image}
         prices={item.prices}

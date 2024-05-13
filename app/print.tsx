@@ -1,16 +1,16 @@
 import GContainer from '@/components/shared/GContainer/GContainer';
-import InvoiceScreen from '@/screens/InvoiceScreen/InvoiceScreen';
+import PrintScreen from '@/screens/PrintScreen/PrintScreen';
 import React from 'react';
 import { StyleSheet } from 'react-native';
 
-const Invoice = () => {
+const Print = () => {
   return (
     <GContainer>
-      <InvoiceScreen />
+      <PrintScreen />
     </GContainer>
   );
 };
 
-export default Invoice;
+export default Print;
 
 const styles = StyleSheet.create({});

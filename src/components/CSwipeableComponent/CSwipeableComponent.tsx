@@ -52,7 +52,7 @@ const CSwipeableComponent = ({
       const isHorizontalPanning = xDiff > yDiff;
 
       if (isHorizontalPanning) {
-        state.activate();
+        xDiff > 20 && state.activate();
       } else {
         //   state.fail();
       }

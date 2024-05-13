@@ -1,6 +1,6 @@
 import MinusCircleIcon from '@/assets/svgs/MinusCircleIcon';
 import PlusCircleIcon from '@/assets/svgs/PlusCircleIcon';
-import { useAppSelector } from '@/providers/redux/hooks';
+import { IProductCart } from '@/entities/interfaces/cart/ICart';
 import {
   useDeleteCartItem,
   useEditCartItem,
@@ -8,19 +8,23 @@ import {
 import { priceFormatter } from '@/utils/shared';
 import createStyle from '@/utils/styles/createStyle';
 import useStyles from '@/utils/styles/useStyles';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 import CSwipeableComponent from '../CSwipeableComponent/CSwipeableComponent';
 import GTextInput from '../shared/GTextInput/GTextInput';
 import TextFont from '../shared/TextFont/TextFont';
 
 export interface InvoiceItemRowProps {
-  itemId: string;
+  item: IProductCart;
   withPrice?: boolean;
+  locked?: boolean;
 }
 
-const GInvoiceItemRow = ({ itemId, withPrice = true }: InvoiceItemRowProps) => {
-  const item = useAppSelector((state) => state.cart.cart![itemId]);
+const GInvoiceItemRow = ({
+  item,
+  withPrice = true,
+  locked = true,
+}: InvoiceItemRowProps) => {
   const { styles, theme: colors } = useStyles(stylesheets);
   const { editItemPrice, editItemQty } = useEditCartItem();
   const { removeItem } = useDeleteCartItem();
@@ -48,6 +52,44 @@ const GInvoiceItemRow = ({ itemId, withPrice = true }: InvoiceItemRowProps) => {
     editItemQty(item.productCode, item.productUnit, -1);
   };
 
+  const content = useMemo(() => {
+    return (
+      <View style={styles.container}>
+        <TextFont>
+          {item.quantity} {item.productUnit}{' '}
+          <TextFont>{[item.productBrand, item.productName].join(' ')}</TextFont>
+        </TextFont>
+        {withPrice && (
+          <View style={styles.cartRow}>
+            <View style={{ alignSelf: 'flex-start' }}>
+              {!locked && !!editPriceVal ? (
+                <GTextInput
+                  initialValue={`${editPriceVal}`}
+                  keyboardType='numeric'
+                  _onBlur={setNewPrice}
+                />
+              ) : (
+                <TextFont onPress={editPrice}>
+                  @ {priceFormatter(item.productPricePerUnit)}
+                </TextFont>
+              )}
+            </View>
+
+            {withPrice && (
+              <TextFont>
+                {priceFormatter(item.quantity * item.productPricePerUnit)}
+              </TextFont>
+            )}
+          </View>
+        )}
+      </View>
+    );
+  }, [editPriceVal, locked, item]);
+
+  if (locked) {
+    return content;
+  }
+
   return (
     <View>
       <CSwipeableComponent
@@ -62,37 +104,7 @@ const GInvoiceItemRow = ({ itemId, withPrice = true }: InvoiceItemRowProps) => {
           </TouchableOpacity>
         }
       >
-        <View style={styles.container}>
-          <TextFont>
-            {item.quantity} {item.productUnit}{' '}
-            <TextFont>
-              {[item.productBrand, item.productName].join(' ')}
-            </TextFont>
-          </TextFont>
-          {withPrice && (
-            <View style={styles.cartRow}>
-              <View style={{ alignSelf: 'flex-start' }}>
-                {!!editPriceVal ? (
-                  <GTextInput
-                    initialValue={`${editPriceVal}`}
-                    keyboardType='numeric'
-                    _onBlur={setNewPrice}
-                  />
-                ) : (
-                  <TextFont onPress={editPrice}>
-                    @ {priceFormatter(item.productPricePerUnit)}
-                  </TextFont>
-                )}
-              </View>
-
-              {withPrice && (
-                <TextFont>
-                  {priceFormatter(item.quantity * item.productPricePerUnit)}
-                </TextFont>
-              )}
-            </View>
-          )}
-        </View>
+        {content}
       </CSwipeableComponent>
     </View>
   );
