@@ -8,6 +8,10 @@ interface IInvoice {
    customer?: ICustomer,
    items?: ICart,
    invoiceNo?: string | undefined
+   delivery?: {
+      no: string,
+      courier: string
+   }
 }
 
 export class Invoice implements IInvoice{

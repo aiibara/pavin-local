@@ -5,9 +5,8 @@ import { IProductCart, ProductCart } from '@/entities/interfaces/cart/ICart';
 import { Customer } from '@/entities/interfaces/customer/ICustomer';
 import { useGetInvoice } from '@/providers/redux/hooks/invoiceHooks';
 import Stack from '@/utils/navigation/Stack';
-import { priceFormatter } from '@/utils/shared';
+import { formatDate, priceFormatter } from '@/utils/shared';
 import useColors from '@/utils/styles/useColors';
-import { format } from 'date-fns';
 import { useLocalSearchParams, useRouter } from 'expo-router';
 import React from 'react';
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native';
@@ -31,7 +30,10 @@ const InvoiceScreen = () => {
             return (
               <TouchableOpacity
                 onPress={() => {
-                  router.push({ pathname: '/print', params: {invoiceNo: invoiceNo} });
+                  router.push({
+                    pathname: '/print',
+                    params: { invoiceNo: invoiceNo },
+                  });
                 }}
               >
                 <PrintIcon fill={colors.text_primary} />
@@ -42,9 +44,7 @@ const InvoiceScreen = () => {
       />
       <ScrollView>
         <View style={styles.container}>
-          <TextFont>
-            Date: {format(new Date(date!), 'yyyy-MM-dd HH:mm')}
-          </TextFont>
+          <TextFont>Date: {formatDate(date!)}</TextFont>
 
           <TextFont>Invoice: {invoiceNo}</TextFont>
           <TextFont>To: {Customer.getFullAddress(customer)}</TextFont>

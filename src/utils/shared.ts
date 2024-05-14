@@ -1,5 +1,6 @@
 import ICart from "@/entities/interfaces/cart/ICart";
 import IInvoice from "@/entities/interfaces/invoice/IInvoice";
+import { format } from "date-fns";
 import { DEFAULT_CURRENCY } from "./constants";
 
 export const priceFormatter = (text: string | number) => {
@@ -29,4 +30,12 @@ export const countCartTotal = (cart?: ICart) => {
 
 export const countInvoiceTotal = (inv: IInvoice) => {
   return countCartTotal(inv.items)
+}
+
+export const formatDate = (date: number) => {
+  return format(new Date(date), 'yyyy-MM-dd HH:mm')
+}
+
+export const getPrinterColumnWidth = (percentageArr: number[], printerWidth: number = 29): number[] => {
+  return percentageArr.map(percent => printerWidth * (percent /100))
 }

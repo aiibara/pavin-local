@@ -6,5 +6,6 @@ export const configData: IConfig = {
       'dus',
    ],
    brands: [
-   ]
+   ],
+   BLEDeviceName: "RPP02N"
 }

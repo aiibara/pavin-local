@@ -39,7 +39,7 @@ const reduxStorage: Storage = {
 const persistConfig = {
   key: 'root',
   storage: reduxStorage,
-  whitelist: ['product', 'config']
+  whitelist: ['product']
 };
 const reducers = combineReducers({
   product: productReducer,

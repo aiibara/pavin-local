@@ -12,7 +12,7 @@ interface ConfigState {
 const initialState: ConfigState = {
   config: configData
 }
-
+console.log("configData", configData)
 export const configSlice = createSlice({
   name: 'config',
   // `createSlice` will infer the state type from the `initialState` argument

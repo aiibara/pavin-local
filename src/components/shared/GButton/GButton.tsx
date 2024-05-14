@@ -8,7 +8,7 @@ import TextFont from '../TextFont/TextFont';
 export interface CButtonProps extends TouchableOpacityProps {
   title: string;
 }
-const CButton = ({ title, ...rest }: CButtonProps) => {
+const GButton = ({ title, ...rest }: CButtonProps) => {
   const { styles } = useStyles(styleSheets);
   return (
     <TouchableOpacity {...rest}>
@@ -21,7 +21,7 @@ const CButton = ({ title, ...rest }: CButtonProps) => {
   );
 };
 
-export default CButton;
+export default GButton;
 
 const styleSheets = createStyle((colors) => ({
   button: {
