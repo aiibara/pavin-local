@@ -26,7 +26,7 @@ const colors: ITheme = {
       bg_card: '#323d32',
       bg_tab: '#1E5128',
       border_input: '#fff',
-      border_card: '#fff',
+      border_card: '#fff'
    }
 }
 

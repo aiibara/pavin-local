@@ -96,6 +96,7 @@ const GBarcodeScannerView = ({
         boxpos.y > boundary.y &&
         boxpos.y + boxpos.height < boundary.y + boundary.height
       ) {
+        console.log('barcode', result.data);
         setIsScanning(false);
         impactAsync(ImpactFeedbackStyle.Medium);
         await playSound();

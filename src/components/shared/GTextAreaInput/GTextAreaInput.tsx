@@ -62,6 +62,8 @@ const styleSheet = createStyle((theme) => ({
     borderColor: theme.border_input,
     paddingHorizontal: INPUT_PADDING_HORIZONTAL,
     borderRadius: 10,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   input: {
     color: theme.text_primary,
