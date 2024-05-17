@@ -1,3 +1,4 @@
+import fonts from '@/assets/fonts/fonts';
 import {
   INPUT_PADDING_HORIZONTAL,
   INPUT_PADDING_VERTICAL,
@@ -19,6 +20,7 @@ const GTextAreaInput = ({
   _onBlur,
   rightComponent,
   leftComponent,
+  style,
   ...rest
 }: GTextAreaInputProps) => {
   const { styles } = useStyles(styleSheet);
@@ -40,7 +42,7 @@ const GTextAreaInput = ({
         {leftComponent}
         <TextInput
           value={text}
-          style={styles.input}
+          style={[styles.input, style]}
           onBlur={onBlur}
           onChangeText={onChange}
           placeholderTextColor={colors.text_placeholder}
@@ -71,5 +73,6 @@ const styleSheet = createStyle((theme) => ({
     textAlignVertical: 'top',
     flex: 1,
     minHeight: 100,
+    fontFamily: fonts.NunitoSandsRegular,
   },
 }));

@@ -17,6 +17,7 @@ export const useGetBLEDeviceName = () => {
 export const useConnectPrinter = () => {
    const savedDeviceName = useGetBLEDeviceName();
  const [connectedDevice, setConnectedDevice] = useState<IBLEPrinter | null>(null);
+ const [selectedDevice, setSelectedDevice] = useState<IBLEPrinter | null>(null);
   const [devices, setDevices] = useState<IBLEPrinter[]>([]);
   const [status, setStatus] = useState<'finding' | 'connecting' | 'connected' | 'failed'>('finding');
    
@@ -49,18 +50,24 @@ export const useConnectPrinter = () => {
       console.log("devices", devices, savedDeviceName)
       const device = devices.find(i => i.device_name === savedDeviceName)
       if(device) {
+         setSelectedDevice(device);
+         setStatus('connecting')
          connectPrinter(device)
       }
    }
-  }, [devices])
+  }, [devices, savedDeviceName])
 
    const connectPrinter = (printer: IBLEPrinter) =>
     BLEPrinter.connectPrinter(printer.inner_mac_address).then(
       () => {
         console.log('success connext', printer.device_name);
-        setConnectedDevice(printer)
+        setConnectedDevice(printer);
+        setStatus('connected')
       },
-      (error) => console.warn('err', error)
+      (error) => {
+         console.warn('err', error)
+         setStatus('failed')
+      }
     );
 
   const requestBluetoothPermission = async () => {
@@ -77,12 +84,14 @@ export const useConnectPrinter = () => {
 
   return {
    status,
-   connectedDevice
+   connectedDevice,
+   selectedDevice
   }
 }
 
 export const usePrintInvoice = () => {
 
+  const { connectedDevice, status, selectedDevice } = useConnectPrinter();
 
    const convertSvgToBase64 = async (ref: any) => {
     return new Promise<string>((resolve) => {
@@ -102,11 +111,14 @@ export const usePrintInvoice = () => {
     });
   };
 
-  
+  const print = (data: PrintDataItem[], svgRefs?:Record<string, Svg>) => {
+   if(connectedDevice) {
 
-  
+    printContent(data, svgRefs);
+   }
+  }
 
-     const print = async (data: PrintDataItem[], svgRefs?:Record<string, Svg>) => {
+   const printContent = async (data: PrintDataItem[], svgRefs?:Record<string, Svg>) => {
     const printer = BLEPrinter;
     
     for (let item of data) {
@@ -158,7 +170,9 @@ export const usePrintInvoice = () => {
 
     return {
       print,
-      
+      connectedDevice,
+      status,
+      selectedDevice
     }
   };
 

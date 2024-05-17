@@ -1,15 +1,13 @@
-import GButton from '@/components/shared/GButton/GButton';
 import { useGetInvoice } from '@/providers/redux/hooks/invoiceHooks';
 import {
   countInvoiceTotal,
   getPrinterColumnWidth,
   priceFormatter,
 } from '@/utils/shared';
-import { useLocalSearchParams } from 'expo-router';
-import React, { useRef, useState } from 'react';
+import { useLocalSearchParams, useRouter } from 'expo-router';
+import React, { useState } from 'react';
 import {
   FlatList,
-  ScrollView,
   StyleSheet,
   TouchableWithoutFeedback,
   View,
@@ -17,10 +15,9 @@ import {
 import { ColumnAlignment } from 'react-native-thermal-receipt-printer-image-qr';
 
 import BarcodeScannerIcon from '@/assets/svgs/BarcodeScannerIcon';
+import PrintIcon from '@/assets/svgs/PrinterIcon';
 import QrScannerIcon from '@/assets/svgs/QrScannerIcon';
 import GBarcodeScannerView from '@/components/GBarcodeScannerView/GBarcodeScannerView';
-import GBarcodeView from '@/components/shared/GBarcodeView/GBarcodeView';
-import GQrCodeView from '@/components/shared/GQrCodeView/GQrCodeView';
 import GSelectItem from '@/components/shared/GSelectItem/GSelectItem';
 import GTextAreaInput from '@/components/shared/GTextAreaInput/GTextAreaInput';
 import GTextInput from '@/components/shared/GTextInput/GTextInput';
@@ -30,26 +27,19 @@ import {
   ComponentOption,
   PrintDataItem,
 } from '@/entities/interfaces/print/IPrint';
-import {
-  useConnectPrinter,
-  usePrintInvoice,
-} from '@/providers/redux/hooks/printHooks';
 import { SCREEN_WIDTH } from '@/utils/constants';
+import Stack from '@/utils/navigation/Stack';
 import useColors from '@/utils/styles/useColors';
 import DraggableFlatList, {
   RenderItemParams,
 } from 'react-native-draggable-flatlist';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Svg } from 'react-native-svg';
 
 const PrintScreen = () => {
   const colors = useColors();
-  const [showPreview, setShowPreview] = useState<boolean>(false);
-  const { connectedDevice } = useConnectPrinter();
-  const { print } = usePrintInvoice();
-  const refs = useRef<Record<string, Svg>>();
+  const router = useRouter();
+
   const [scannerForInput, setScannerForInput] = useState<string | null>(null);
-  const [qrCode, setQrCode] = useState('temp');
   const { invoiceNo = '' } = useLocalSearchParams<{ invoiceNo: string }>();
   const { invoice, total } = useGetInvoice(invoiceNo);
 
@@ -130,6 +120,13 @@ const PrintScreen = () => {
     );
   };
 
+  const goToPrintPreview = () => {
+    router.push({
+      pathname: '/printPreview',
+      params: { printComponentsString: JSON.stringify(inputs) },
+    });
+  };
+
   const renderItem = ({
     item,
     drag,
@@ -207,6 +204,17 @@ const PrintScreen = () => {
 
   return (
     <View>
+      <Stack.Screen
+        options={{
+          title: 'Print Options',
+          headerRight: () => (
+            <TouchableOpacity onPress={goToPrintPreview}>
+              <PrintIcon fill={colors.text_primary} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
+
       <View
         style={{
           backgroundColor: '#fff',
@@ -238,16 +246,13 @@ const PrintScreen = () => {
             onSelect={addInput}
           />
         )}
-        ListFooterComponent={() => (
-          <GButton title={'preview'} onPress={() => setShowPreview(true)} />
-        )}
         data={inputs}
         onDragEnd={({ data }) => setInputs(data)}
         keyExtractor={(item) => item.key}
         renderItem={renderItem}
       />
 
-      {showPreview && (
+      {/* {showPreview && (
         <ScrollView contentContainerStyle={styles.container}>
           <TextFont>{connectedDevice?.device_name}</TextFont>
           {inputs.map((item) => {
@@ -314,7 +319,7 @@ const PrintScreen = () => {
             onPress={() => print(inputs, refs.current)}
           />
         </ScrollView>
-      )}
+      )} */}
     </View>
   );
 };

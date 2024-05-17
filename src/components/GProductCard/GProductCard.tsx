@@ -94,7 +94,7 @@ export const ProductCardPrice = ({
       }}
       style={[styles.priceTab]}
     >
-      <TextFont>
+      <TextFont style={{ flex: 1 }}>
         <TextFont>{`${priceFormatter(price.price)}`}</TextFont>
         <TextFont
           type={fontType.callout}
