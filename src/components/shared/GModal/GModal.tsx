@@ -10,15 +10,17 @@ export interface GModalRef {
 }
 export interface GModalProps {
   children?: React.ReactNode | React.ReactNode[];
+  onClose?: () => void;
 }
 
-const GModal = ({ children }: GModalProps, ref: Ref<GModalRef>) => {
+const GModal = ({ children, onClose }: GModalProps, ref: Ref<GModalRef>) => {
   const { styles } = useStyles(styleSheets);
 
   const [isVisible, setIsVisible] = useState(false);
 
   const closeModal = () => {
     setIsVisible(false);
+    onClose && onClose();
   };
 
   const openModal = () => {
@@ -60,7 +62,7 @@ const styleSheets = createStyle((colors) => ({
     width: '100%',
     height: '100%',
     backgroundColor: colors.bg_content,
-    opacity: 0.3,
+    opacity: 0,
     position: 'absolute',
   },
 }));

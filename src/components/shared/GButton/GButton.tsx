@@ -35,5 +35,7 @@ const styleSheets = createStyle((colors) => ({
   },
   btnTitle: {
     color: colors.text_secondary,
+    flex: 1,
+    textAlign: 'center',
   },
 }));

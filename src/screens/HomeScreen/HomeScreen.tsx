@@ -1,9 +1,10 @@
 import BarcodeScannerIcon from '@/assets/svgs/BarcodeScannerIcon';
-import GBarcodeScannerView from '@/components/GBarcodeScannerView/GBarcodeScannerView';
+import GAddToCartByScan from '@/components/GAddToCartByScan/GAddToCartByScan';
 import GProductCard from '@/components/GProductCard/GProductCard';
 import GCartList from '@/components/shared/GCartList/GCartList';
 import GTextInput from '@/components/shared/GTextInput/GTextInput';
 import IProduct from '@/entities/interfaces/product/IProduct';
+import { useAddToCart } from '@/providers/redux/hooks/cartHooks';
 import { useViewProductsList } from '@/providers/redux/hooks/productHooks';
 import useColors from '@/utils/styles/useColors';
 import MasonryList from '@react-native-seoul/masonry-list';
@@ -17,6 +18,8 @@ const HomeScreen = () => {
   const [isShowScannerView, setIsShowScannerView] = useState(false);
 
   const colors = useColors();
+
+  const addToCart = useAddToCart();
 
   const renderItem = ({ item }: { item: IProduct }) => {
     return (
@@ -67,12 +70,7 @@ const HomeScreen = () => {
 
       <GCartList />
       {isShowScannerView && (
-        <View style={{ flex: 1, backgroundColor: 'green' }}>
-          <GBarcodeScannerView
-            onPressClose={() => setIsShowScannerView(false)}
-            onSuccessScan={() => {}}
-          />
-        </View>
+        <GAddToCartByScan onPressClose={() => setIsShowScannerView(false)} />
       )}
     </>
   );

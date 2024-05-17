@@ -4,7 +4,7 @@ import GDivider from '@/components/shared/GDivider/GDivider';
 import GTextAreaInput from '@/components/shared/GTextAreaInput/GTextAreaInput';
 import GTextInput from '@/components/shared/GTextInput/GTextInput';
 import TextFont from '@/components/shared/TextFont/TextFont';
-import { IProductCart, ProductCart } from '@/entities/interfaces/cart/ICart';
+import { ProductCart } from '@/entities/interfaces/cart/ICart';
 import { Customer } from '@/entities/interfaces/customer/ICustomer';
 import { Invoice } from '@/entities/interfaces/invoice/IInvoice';
 import {
@@ -21,7 +21,7 @@ import useStyles from '@/utils/styles/useStyles';
 import { useFocusEffect, useRouter } from 'expo-router';
 import React, { useCallback, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { FlatList, ScrollView, TouchableOpacity, View } from 'react-native';
+import { ScrollView, TouchableOpacity, View } from 'react-native';
 
 const InvoiceDraftScreen = () => {
   const router = useRouter();
@@ -123,13 +123,13 @@ const InvoiceDraftScreen = () => {
           )}
         />
 
-        <FlatList
-          data={prodsCart}
-          keyExtractor={(i) => new ProductCart(i).key}
-          renderItem={({ item }: { item: IProductCart }) => {
-            return <GInvoiceItemRow item={item} locked={false} />;
-          }}
-        />
+        {prodsCart.map((i) => (
+          <GInvoiceItemRow
+            key={new ProductCart(i).key}
+            item={i}
+            locked={false}
+          />
+        ))}
 
         <GDivider />
 

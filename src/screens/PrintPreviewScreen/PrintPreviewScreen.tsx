@@ -66,18 +66,13 @@ const PrintPreviewScreen = ({}: PrintPreviewScreenProps) => {
         <ScrollView style={{ flexGrow: 1 }}>
           <View style={{ alignItems: 'center' }}>
             <View
-              style={{
-                backgroundColor: '#fff',
-                width: 350,
-                padding: 16,
-                borderColor: '#000',
-              }}
+              style={styles.invoice}
             >
-              {printComponents.map((item) => {
+              {printComponents.map((item, i) => {
                 if (item.content) {
                   if (item.type === ComponentOption.Barcode) {
                     return (
-                      <View>
+                      <View key={i}>
                         <TextFontInvoice>{item.content}</TextFontInvoice>
                         <GBarcodeView
                           value={item.content}
@@ -94,7 +89,7 @@ const PrintPreviewScreen = ({}: PrintPreviewScreenProps) => {
                     );
                   } else if (item.type === ComponentOption.QrCode) {
                     return (
-                      <View>
+                      <View key={i}>
                         <TextFontInvoice>{item.content}</TextFontInvoice>
                         <GQrCodeView
                           value={item.content}
@@ -113,6 +108,7 @@ const PrintPreviewScreen = ({}: PrintPreviewScreenProps) => {
                   ) {
                     return (
                       <TextFontInvoice
+                        key={i}
                         style={{
                           color: '#000',
                         }}
@@ -122,7 +118,7 @@ const PrintPreviewScreen = ({}: PrintPreviewScreenProps) => {
                     );
                   } else if (item.type === ComponentOption.Table) {
                     return (
-                      <View style={{ flex: 1 }}>
+                      <View style={{ flex: 1 }} key={i}>
                         {item.content.map((i, idx) => (
                           <View
                             key={idx}
@@ -163,4 +159,19 @@ const TextFontInvoice = (props: TextFontProps) => {
 
 export default PrintPreviewScreen;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  invoice: {
+    backgroundColor: '#fff',
+    width: 350,
+    padding: 16,
+    margin: 10,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+});

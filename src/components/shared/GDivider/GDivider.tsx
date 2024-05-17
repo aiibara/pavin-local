@@ -29,6 +29,5 @@ const stylesheets = createStyle((colors) => ({
   container: {
     width: '100%',
     height: 1,
-    backgroundColor: colors.border_input,
   },
 }));

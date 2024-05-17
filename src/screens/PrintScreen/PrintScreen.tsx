@@ -133,13 +133,20 @@ const PrintScreen = () => {
     isActive,
   }: RenderItemParams<PrintDataItem>) => {
     return (
-      <View style={{ flexDirection: 'row', padding: 20, gap: 25 }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          gap: 25,
+          flex: 1,
+          paddingVertical: 10,
+        }}
+      >
         <TouchableWithoutFeedback onLongPress={drag}>
           <View
             style={{
               width: 20,
               height: '100%',
-              backgroundColor: 'pink',
+              backgroundColor: colors.border_input,
               opacity: isActive ? 1 : 0.5,
             }}
           ></View>
@@ -180,6 +187,7 @@ const PrintScreen = () => {
         )}
         {item.type === ComponentOption.Table && (
           <FlatList
+            style={{ flex: 1 }}
             data={item.content}
             keyExtractor={(_, i) => `${i}`}
             renderItem={({ item }: { item: string[] }) => {
@@ -190,8 +198,8 @@ const PrintScreen = () => {
                     justifyContent: 'space-between',
                   }}
                 >
-                  {item.map((text) => (
-                    <TextFont>{text}</TextFont>
+                  {item.map((text, idx) => (
+                    <TextFont key={idx}>{text}</TextFont>
                   ))}
                 </View>
               );
@@ -236,90 +244,23 @@ const PrintScreen = () => {
       <DraggableFlatList
         contentContainerStyle={styles.container}
         ListHeaderComponent={() => (
-          <GSelectItem
-            label={'Add Component'}
-            options={[
-              ComponentOption.Text,
-              ComponentOption.Barcode,
-              ComponentOption.QrCode,
-            ]}
-            onSelect={addInput}
-          />
+          <View style={{ marginBottom: 20 }}>
+            <GSelectItem
+              label={'Add Component'}
+              options={[
+                ComponentOption.Text,
+                ComponentOption.Barcode,
+                ComponentOption.QrCode,
+              ]}
+              onSelect={addInput}
+            />
+          </View>
         )}
         data={inputs}
         onDragEnd={({ data }) => setInputs(data)}
         keyExtractor={(item) => item.key}
         renderItem={renderItem}
       />
-
-      {/* {showPreview && (
-        <ScrollView contentContainerStyle={styles.container}>
-          <TextFont>{connectedDevice?.device_name}</TextFont>
-          {inputs.map((item) => {
-            if (item.content) {
-              if (item.type === ComponentOption.Barcode) {
-                return (
-                  <View>
-                    <TextFont>{item.content}</TextFont>
-                    <GBarcodeView
-                      value={item.content}
-                      getRef={(ref) =>
-                        (refs.current = {
-                          ...refs.current,
-                          [item.key]: ref,
-                        })
-                      }
-                    />
-                  </View>
-                );
-              } else if (item.type === ComponentOption.QrCode) {
-                return (
-                  <View>
-                    <TextFont>{item.content}</TextFont>
-                    <GQrCodeView
-                      value={item.content}
-                      getRef={(ref) =>
-                        (refs.current = {
-                          ...refs.current,
-                          [item.key]: ref,
-                        })
-                      }
-                    />
-                  </View>
-                );
-              } else if (
-                item.type === ComponentOption.Text ||
-                item.type === ComponentOption.TextArea
-              ) {
-                return <TextFont>{item.content}</TextFont>;
-              } else if (item.type === ComponentOption.Table) {
-                return (
-                  <View style={{ flex: 1 }}>
-                    {item.content.map((i, idx) => (
-                      <View
-                        key={idx}
-                        style={{
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          flex: 1,
-                        }}
-                      >
-                        {i.map((text) => (
-                          <TextFont>{text}</TextFont>
-                        ))}
-                      </View>
-                    ))}
-                  </View>
-                );
-              }
-            }
-          })}
-          <GButton
-            title={'print'}
-            onPress={() => print(inputs, refs.current)}
-          />
-        </ScrollView>
-      )} */}
     </View>
   );
 };

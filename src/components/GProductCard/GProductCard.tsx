@@ -125,7 +125,7 @@ const stylesheets = createStyle((colors) => ({
     elevation: 2,
   },
   priceTabs: {
-    flex: 1,
+    width: '100%',
     justifyContent: 'space-evenly',
   },
   priceTab: {

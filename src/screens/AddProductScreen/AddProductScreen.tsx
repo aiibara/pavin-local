@@ -16,12 +16,13 @@ import { SCREEN_WIDTH } from '@/utils/constants';
 import { INPUT_GAP_VERTICAL } from '@/utils/styles/constants';
 import createStyle from '@/utils/styles/createStyle';
 import useStyles from '@/utils/styles/useStyles';
-import { Stack, useNavigation } from 'expo-router';
+import { Stack, useLocalSearchParams, useNavigation } from 'expo-router';
 import React, { useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { ScrollView, TouchableOpacity, View } from 'react-native';
 
 const AddProductScreen = () => {
+  const { barcode } = useLocalSearchParams();
   const { styles, theme: colors } = useStyles(styleSheet);
 
   const [showPreview, setShowPreview] = useState(false);
@@ -34,7 +35,10 @@ const AddProductScreen = () => {
     trigger,
     watch,
   } = useForm<IProduct>({
-    defaultValues: emptyProductData,
+    defaultValues: {
+      ...emptyProductData,
+      barcode: barcode as string,
+    },
   });
   const navigation = useNavigation();
   const addProduct = useAddProduct();

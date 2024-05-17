@@ -10,7 +10,6 @@ import { store } from "../store"
 
 export const useGetBLEDeviceName = () => {
    const deviceName = useAppSelector(state => state.config.config.BLEDeviceName)
-   console.log("store", store.getState())
    return deviceName
 }
 
@@ -63,12 +62,12 @@ export const useConnectPrinter = () => {
         console.log('success connext', printer.device_name);
         setConnectedDevice(printer);
         setStatus('connected')
-      },
+      }
+    ).catch(
       (error) => {
          console.warn('err', error)
          setStatus('failed')
-      }
-    );
+      });
 
   const requestBluetoothPermission = async () => {
     const result = await check(PERMISSIONS.ANDROID.BLUETOOTH_CONNECT);

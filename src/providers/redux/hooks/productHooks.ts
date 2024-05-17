@@ -41,3 +41,21 @@ export const useViewProductsList = () => {
       setSearchValue
    }
 }
+
+export const useGetProductByBarcode = () => {
+   const prods = useGetProducts();
+   const [searchValue, setSearchValue] = useState('');
+
+   const product = useMemo(()=> {
+      if(searchValue === '') return undefined;
+      return prods.find(prod => {
+         return searchValue.toLowerCase() === prod.barcode?.toLowerCase()
+      })
+   }, [searchValue])
+
+   return {
+      product,
+      setBarcode: setSearchValue,
+      barcode: searchValue
+   }
+}

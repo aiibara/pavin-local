@@ -6,7 +6,7 @@ import createStyle from '@/utils/styles/createStyle';
 import useStyles from '@/utils/styles/useStyles';
 import React, { useState } from 'react';
 import { View } from 'react-native';
-import CButton from '../shared/GButton/GButton';
+import GButton from '../shared/GButton/GButton';
 import GTextInput from '../shared/GTextInput/GTextInput';
 import TextFont from '../shared/TextFont/TextFont';
 
@@ -36,7 +36,7 @@ const CModalOneInput = ({
           <GTextInput _onBlur={onChangeText} initialValue={text} />
         </View>
 
-        <CButton title={primaryLabel} onPress={() => onPressPrimary(text)} />
+        <GButton title={primaryLabel} onPress={() => onPressPrimary(text)} />
       </View>
     </View>
   );
